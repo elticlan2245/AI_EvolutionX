@@ -1,8 +1,14 @@
 {
   "name": "ai-evolutionx-platform",
   "version": "1.0.0",
+  "description": "Advanced AI Platform with Continuous Learning",
   "scripts": {
+    "install": "cd frontend && npm install",
     "build": "cd frontend && npm run build",
-    "sync": "cd frontend && npx cap sync"
+    "sync": "cd frontend && npx cap sync android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.0.2",
+    "@capacitor/core": "^7.0.2"
   }
 }
