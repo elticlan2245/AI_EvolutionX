@@ -1,9 +1,9 @@
 {
-  "name": "AI_EvolutionX",
+  "name": "AI_EvolutionX_2025",
   "displayName": "AI EvolutionX",
   "expo": {
     "name": "AI EvolutionX",
-    "slug": "ai-evolutionx",
+    "slug": "ai-evolutionx-2025",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./frontend/public/icon.png",

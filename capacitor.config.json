@@ -1,11 +1,8 @@
 {
-  "appId": "com.aievolutionx.app",
+  "appId": "com.aievolutionx.app2025",
   "appName": "AI EvolutionX",
   "webDir": "frontend/dist",
-  "server": {
-    "url": "http://192.168.50.123",
-    "cleartext": true
-  },
+  "bundledWebRuntime": false,
   "android": {
     "allowMixedContent": true,
     "backgroundColor": "#ffffff"
