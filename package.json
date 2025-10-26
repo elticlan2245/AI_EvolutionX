@@ -1,17 +1,12 @@
 {
-  "name": "ai-evolutionx-platform-2025",
+  "name": "ai-evolutionx",
   "version": "1.0.0",
-  "description": "Advanced AI Platform with Continuous Learning",
-  "main": "index.js",
+  "description": "AI Platform with Multi-Model Support",
   "scripts": {
     "postinstall": "cd frontend && npm install",
-    "build": "cd frontend && npm run build && mkdir -p ../www && cp -r dist/* ../www/",
-    "sync": "npx cap sync android",
-    "android": "npx cap sync android && npx cap open android"
+    "build": "cd frontend && npm run build && cd .. && mkdir -p www && cp -r frontend/dist/* www/",
+    "sync": "npm run build && npx cap sync android"
   },
-  "keywords": ["ai", "chat", "ollama"],
-  "author": "AI EvolutionX Team",
-  "license": "MIT",
   "dependencies": {
     "@capacitor/android": "^6.0.0",
     "@capacitor/cli": "^6.0.0",

@@ -1,158 +1,123 @@
-# 🚀 AI EvolutionX Platform
+# 🤖 AI EvolutionX Platform
 
-Advanced AI Platform with Continuous Learning and Multi-Model Support
+Plataforma profesional de IA con soporte multi-modelo, aprendizaje continuo y sistema de afiliados.
 
 ## ✨ Features
 
-- 🤖 **15+ AI Models** - Ollama integration with multiple models
-- 💬 **Real-time Chat** - Streaming responses with SSE
-- 👤 **User Authentication** - JWT-based secure authentication
-- 📊 **Dashboard** - Usage statistics and model selection
-- 🎯 **Training System** - Continuous learning from conversations
-- 💰 **Affiliate System** - Built-in referral program (20% commission)
-- 💳 **Payment Integration** - Stripe ready (configurable)
-- 📱 **Mobile App** - Android/iOS via Ionic Capacitor
+### 🎯 Core Features
+- ✅ Chat inteligente con múltiples modelos de IA
+- ✅ Soporte para Claude 3.5 Sonnet, GPT-4, Gemini Pro, y modelos locales (Ollama)
+- ✅ Sistema de autenticación completo
+- ✅ Aprendizaje continuo y personalización
+- ✅ Historial de conversaciones
+- ✅ Interface responsive (Web + Mobile)
 
-## 🏗️ Architecture
+### 💰 Monetización
+- ✅ Sistema de planes (Free, Pro, Enterprise)
+- ✅ Programa de afiliados con 20% de comisión
+- ✅ Dashboard con métricas y analytics
+- ✅ Comparador de modelos IA
 
-### Backend (FastAPI)
-- Python 3.12
-- FastAPI + Uvicorn
-- MongoDB (Motor async driver)
+### 🔧 Tech Stack
+
+**Frontend:**
+- React 18 + Vite
+- Tailwind CSS
+- React Router
+- Capacitor (Android/iOS)
+
+**Backend:**
+- FastAPI (Python)
+- MongoDB
 - JWT Authentication
-- Ollama integration
+- Multi-provider AI system
 
-### Frontend (React)
-- React 18
-- Vite
-- TailwindCSS
-- Lucide Icons
-- Ionic Capacitor (for mobile)
+**AI Providers:**
+- Anthropic Claude
+- OpenAI GPT
+- Google Gemini
+- Ollama (local models)
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-```bash
-# Required
-- Python 3.12+
 - Node.js 18+
+- Python 3.10+
 - MongoDB
-- Ollama with models installed
-```
+- Ollama (optional, for local models)
 
-### Backend Setup
+### Installation
 ```bash
+# Clone
+git clone https://github.com/elticlan2245/ai-evolutionx.git
+cd ai-evolutionx
+
+# Backend
 cd backend
-pip3 install -r requirements.txt --break-system-packages
-
-# Configure .env
+pip install -r requirements.txt
 cp .env.example .env
-# Edit .env with your settings
+# Edit .env with your API keys
+python -m uvicorn app.main:app --reload
 
-# Start backend
-python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
-```
-
-### Frontend Setup
-```bash
-cd frontend
+# Frontend
+cd ../frontend
 npm install
 npm run dev
 ```
 
-### Access
-- Frontend: http://localhost:5173
-- Backend API: http://localhost:8000
-- API Docs: http://localhost:8000/docs
+### Environment Variables
 
-## 📱 Build Mobile App
+Create `backend/.env`:
+```env
+MONGODB_URL=mongodb://localhost:27017
+OPENAI_API_KEY=your_key_here
+ANTHROPIC_API_KEY=your_key_here
+GOOGLE_API_KEY=your_key_here
+```
 
-### Android
+## 📱 Build Android APK
 ```bash
-cd frontend
 npm run build
 npx cap sync android
 npx cap open android
 ```
 
-### iOS
-```bash
-cd frontend
-npm run build
-npx cap sync ios
-npx cap open ios
-```
+## 📊 Pricing Plans
 
-## 🔧 Configuration
+### Free
+- 100 messages/month
+- Ollama models only
+- Basic support
 
-### Environment Variables
+### Pro ($10/month)
+- 5,000 messages/month
+- Claude 3 Haiku
+- GPT-3.5 Turbo
+- Gemini Pro
+- Priority support
 
-**Backend (.env)**
-```env
-MONGODB_URL=mongodb://localhost:27017
-DATABASE_NAME=ai_evolutionx
-JWT_SECRET=your_secret_key
-OLLAMA_HOST=http://localhost:11434
-STRIPE_SECRET_KEY=sk_test_...
-```
-
-**Frontend**
-```env
-VITE_API_URL=http://localhost:8000
-```
-
-## 💳 Payment Plans
-
-- **Free**: 100 messages/month
-- **Pro**: $10/month - 5000 messages
-- **Enterprise**: $50/month - Unlimited
+### Enterprise ($50/month)
+- Unlimited messages
+- Claude 3.5 Sonnet
+- GPT-4 Turbo
+- All premium models
+- 24/7 support
+- Custom integrations
 
 ## 🤝 Affiliate Program
 
-- **Commission**: 20% per referred user
-- **Minimum Payout**: $50
-- **Lifetime Commissions**: Earn while user stays subscribed
+Earn 20% lifetime commission on all referrals. No limits, no expiration.
 
-## 📊 Available Models
+## 📄 License
 
-- deepseek-coder-v2:236b
-- deepseek-v3.1:671b
-- llama3.1:70b
-- qwen3:32b
-- And 11 more...
+Proprietary - © 2024 AI EvolutionX
 
-## 🛠️ Tech Stack
+## 🔗 Links
 
-**Backend**
-- FastAPI
-- MongoDB
-- Ollama
-- Stripe API
-- JWT
-
-**Frontend**
-- React + Vite
-- TailwindCSS
-- Ionic Capacitor
-- Lucide Icons
-
-## 📝 License
-
-MIT License - See LICENSE file
-
-## 👥 Support
-
-- Email: elgalatico2280@gmail.com
 - Website: https://iaevolutionxm.asuscomm.com
+- Documentation: Coming soon
+- Support: support@aievolutionx.com
 
-## 🌟 Features Coming Soon
+## 👨‍💻 Author
 
-- [ ] Voice synthesis integration
-- [ ] Image analysis with vision models
-- [ ] Multi-language support
-- [ ] Advanced analytics dashboard
-- [ ] Team collaboration features
-
----
-
-Made with ❤️ by AI EvolutionX Team
+Built with ❤️ by [Your Name]
