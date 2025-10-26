@@ -1,0 +1,8 @@
+{
+  "name": "ai-evolutionx-platform",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "cd frontend && npm run build",
+    "sync": "cd frontend && npx cap sync"
+  }
+}
