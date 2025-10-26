@@ -1,11 +1,20 @@
 {
   "apps": [
     {
-      "appId": "com.aievolutionx.app2025",
-      "root": ".",
+      "appId": "fd2cdf2a",
+      "root": "./",
       "webDir": "www",
-      "android": {
-        "path": "android"
+      "build": {
+        "web": {
+          "scripts": {
+            "prebuild": "cd frontend && npm install",
+            "build": "cd frontend && npm run build && cd .. && mkdir -p www && cp -r frontend/dist/* www/"
+          }
+        },
+        "android": {
+          "webDir": "www",
+          "path": "android"
+        }
       }
     }
   ]
