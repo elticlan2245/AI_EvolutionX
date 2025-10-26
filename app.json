@@ -1,5 +1,14 @@
 {
   "name": "AI_EvolutionX",
   "displayName": "AI EvolutionX",
-  "capacitor": true
+  "expo": {
+    "name": "AI EvolutionX",
+    "slug": "ai-evolutionx",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./frontend/public/icon.png",
+    "splash": {
+      "backgroundColor": "#6366f1"
+    }
+  }
 }

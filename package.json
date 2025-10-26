@@ -2,13 +2,13 @@
   "name": "ai-evolutionx-platform",
   "version": "1.0.0",
   "description": "Advanced AI Platform with Continuous Learning",
+  "main": "index.js",
   "scripts": {
-    "install": "cd frontend && npm install",
+    "postinstall": "cd frontend && npm ci",
     "build": "cd frontend && npm run build",
     "sync": "cd frontend && npx cap sync android"
   },
-  "dependencies": {
-    "@capacitor/android": "^7.0.2",
-    "@capacitor/core": "^7.0.2"
-  }
+  "keywords": ["ai", "chat", "ollama"],
+  "author": "AI EvolutionX Team",
+  "license": "MIT"
 }

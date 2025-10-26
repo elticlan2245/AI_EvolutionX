@@ -1,82 +1,131 @@
 from pydantic_settings import BaseSettings
-from pydantic import Field
-from typing import List
+from typing import Optional
 
 class Settings(BaseSettings):
-    # ⚙️ General server configuration
-    host: str = Field(default="0.0.0.0")
-    port: int = Field(default=8000)
-    debug: bool = Field(default=True)
-    workers: int = Field(default=4)
-    reload: bool = Field(default=True)
-
-
-    # 🧠 Ollama configuration
-    ollama_lan_url: str = Field(default="http://192.168.50.123:11434", description="Dirección LAN del servidor Ollama")
-    ollama_wan_url: str = Field(default="http://192.168.50.123:11434", description="Dirección WAN o pública del servidor Ollama")
-    ollama_timeout_lan: int = Field(default=120, description="Timeout para conexión LAN en segundos")
-    ollama_timeout_wan: int = Field(default=180, description="Timeout para conexión WAN en segundos")
-    ollama_models: str = Field(default="/home/kali/Disco8TB/ollama_models", description="Ruta local donde se almacenan los modelos Ollama")
-    ollama_default_model: str = Field(default="llama3.1:8b", description="Modelo predeterminado de Ollama")
-
-
-    # 🗄️ MongoDB configuration
-    mongodb_url: str = Field(default="mongodb://localhost:27017")
-    mongodb_db: str = Field(default="aievolutionx")
-    mongodb_max_pool_size: int = Field(default=100)
-    mongodb_min_pool_size: int = Field(default=10)
-
-    # ⚡ Redis configuration
-    redis_host: str = Field(default="localhost")
-    redis_port: int = Field(default=6379)
-    redis_db: int = Field(default=0)
-    redis_password: str = Field(default="")
-    redis_max_connections: int = Field(default=50)
-
-    # 🔐 JWT security
-    secret_key: str = Field(default="f8135c8249a823186887eb8e555797d56f185b6e61ad472")
-    jwt_algorithm: str = Field(default="HS256")
-    access_token_expire_minutes: int = Field(default=43200)
-    refresh_token_expire_days: int = Field(default=30)
-
-    # 🌐 CORS
-    cors_origins: List[str] = Field(default=["http://localhost:3000", "http://localhost:5173"])
-
-    # 🧩 Training and AI config
-    auto_training_enabled: bool = Field(default=True)
-    min_samples_for_training: int = Field(default=100)
-    max_samples_per_training: int = Field(default=500)
-    training_interval_hours: int = Field(default=12)
-    quality_threshold: float = Field(default=0.7)
-    lora_rank: int = Field(default=8)
-    lora_alpha: int = Field(default=16)
-    learning_rate: float = Field(default=1e-5)
-    batch_size: int = Field(default=4)
-    epochs: int = Field(default=1)
-
-    # 📂 Paths
-    data_dir: str = Field(default="../data")
-    models_dir: str = Field(default="../models")
-    logs_dir: str = Field(default="../logs")
-    cache_dir: str = Field(default="../data/cache")
-
-    # ⏱️ Rate limits
-    rate_limit_per_minute: int = Field(default=60)
-    rate_limit_per_hour: int = Field(default=1000)
-
-    # 📊 Metrics
-    enable_metrics: bool = Field(default=True)
-    metrics_port: int = Field(default=9090)
-
+    """
+    Configuración completa de AI EvolutionX Platform
+    Configuración profesional para producción con sistema de afiliados y pagos
+    """
+    
+    # ==========================================
+    # CONFIGURACIÓN DE BASE DE DATOS
+    # ==========================================
+    mongodb_url: str = "mongodb://localhost:27017"
+    database_name: str = "ai_evolutionx"
+    
+    # ==========================================
+    # CONFIGURACIÓN DE AUTENTICACIÓN JWT
+    # ==========================================
+    jwt_secret: str = "aievolutionx_super_secret_key_change_in_production_2025"
+    jwt_algorithm: str = "HS256"
+    jwt_expiration: int = 86400  # 24 horas
+    
+    # ==========================================
+    # CONFIGURACIÓN DE OLLAMA
+    # ==========================================
+    ollama_host: str = "http://localhost:11434"
+    
+    # ==========================================
+    # API KEYS EXTERNAS
+    # ==========================================
+    anthropic_api_key: Optional[str] = None
+    openai_api_key: Optional[str] = None
+    
+    # ==========================================
+    # STRIPE (SISTEMA DE PAGOS)
+    # ==========================================
+    stripe_secret_key: Optional[str] = None
+    stripe_publishable_key: Optional[str] = None
+    stripe_webhook_secret: Optional[str] = None
+    
+    # ==========================================
+    # CONFIGURACIÓN DE LA PLATAFORMA
+    # ==========================================
+    platform_name: str = "AI EvolutionX"
+    platform_url: str = "https://iaevolutionxm.asuscomm.com"
+    admin_email: str = "elgalatico2280@gmail.com"
+    
+    # ==========================================
+    # LÍMITES DE PLANES
+    # ==========================================
+    free_plan_messages: int = 100
+    pro_plan_messages: int = 5000
+    enterprise_plan_messages: int = -1  # Ilimitado
+    
+    # ==========================================
+    # SISTEMA DE AFILIADOS
+    # ==========================================
+    affiliate_commission_rate: float = 0.20  # 20% de comisión
+    minimum_payout: float = 50.00  # Mínimo $50 para pagar
+    
+    # ==========================================
+    # PRECIOS DE PLANES (en centavos)
+    # ==========================================
+    pro_plan_price: int = 1000  # $10.00
+    enterprise_plan_price: int = 5000  # $50.00
+    
+    # ==========================================
+    # IDS DE PRECIOS DE STRIPE
+    # ==========================================
+    stripe_pro_price_id: Optional[str] = None
+    stripe_enterprise_price_id: Optional[str] = None
+    
+    # ==========================================
+    # CONFIGURACIÓN DE EMAIL
+    # ==========================================
+    smtp_host: Optional[str] = None
+    smtp_port: Optional[int] = None
+    smtp_user: Optional[str] = None
+    smtp_password: Optional[str] = None
+    smtp_from_email: Optional[str] = None
+    
+    # ==========================================
+    # CONFIGURACIÓN DE ALMACENAMIENTO
+    # ==========================================
+    max_file_size_mb: int = 10
+    allowed_file_types: str = "image/jpeg,image/png,image/gif,image/webp"
+    
+    # ==========================================
+    # RATE LIMITING
+    # ==========================================
+    rate_limit_requests_per_minute: int = 60
+    rate_limit_requests_per_hour: int = 1000
+    
+    # ==========================================
+    # CONFIGURACIÓN DE LOGS
+    # ==========================================
+    log_level: str = "INFO"
+    log_file_path: str = "../logs/backend_app.log"
+    
+    # ==========================================
+    # CONFIGURACIÓN DE SEGURIDAD
+    # ==========================================
+    cors_origins: str = "*"
+    allow_credentials: bool = True
+    
+    # ==========================================
+    # FEATURES FLAGS
+    # ==========================================
+    enable_voice_synthesis: bool = True
+    enable_image_analysis: bool = True
+    enable_affiliates: bool = True
+    enable_payments: bool = True
+    enable_api_access: bool = True
+    
     class Config:
         env_file = ".env"
-        env_file_encoding = "utf-8"
+        env_file_encoding = 'utf-8'
+        case_sensitive = False
+        extra = "ignore"  # Ignora variables extras que no estén definidas
 
-
-# ✅ Global instance
 settings = Settings()
 
-if __name__ == "__main__":
-    print("✅ Configuración cargada correctamente\n")
-    for key, value in settings.__dict__.items():
-        print(f"{key} = {value}")
+# Validaciones post-inicialización
+if settings.enable_payments and not settings.stripe_secret_key:
+    print("⚠️  WARNING: Payments enabled but Stripe not configured")
+
+if settings.enable_affiliates and settings.affiliate_commission_rate > 1.0:
+    raise ValueError("Affiliate commission rate must be between 0 and 1")
+
+if settings.minimum_payout < 10:
+    raise ValueError("Minimum payout must be at least $10")
