@@ -4,11 +4,17 @@
   "description": "Advanced AI Platform with Continuous Learning",
   "main": "index.js",
   "scripts": {
-    "postinstall": "cd frontend && npm ci",
-    "build": "cd frontend && npm run build",
-    "sync": "cd frontend && npx cap sync android"
+    "postinstall": "cd frontend && npm install",
+    "build": "cd frontend && npm run build && mkdir -p ../www && cp -r dist/* ../www/",
+    "sync": "npx cap sync android",
+    "android": "npx cap sync android && npx cap open android"
   },
   "keywords": ["ai", "chat", "ollama"],
   "author": "AI EvolutionX Team",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/cli": "^6.0.0",
+    "@capacitor/core": "^6.0.0"
+  }
 }

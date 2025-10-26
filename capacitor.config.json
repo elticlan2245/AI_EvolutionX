@@ -1,10 +1,11 @@
 {
   "appId": "com.aievolutionx.app2025",
   "appName": "AI EvolutionX",
-  "webDir": "frontend/dist",
+  "webDir": "www",
   "bundledWebRuntime": false,
   "android": {
     "allowMixedContent": true,
-    "backgroundColor": "#ffffff"
+    "backgroundColor": "#ffffff",
+    "path": "android"
   }
 }

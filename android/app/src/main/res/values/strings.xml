@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">AI EvolutionX</string>
+    <string name="title_activity_main">AI EvolutionX</string>
+    <string name="package_name">com.aievolutionx.app</string>
+    <string name="custom_url_scheme">com.aievolutionx.app</string>
+</resources>
