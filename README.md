@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🚀 AI_EvolutionX Platform
 
 Next-Generation AI Chat Platform with Continuous Learning
@@ -40,3 +41,6 @@ MIT
 ## Support
 
 For issues, contact: support@aievolutionx.com
+=======
+# ai_evolution
+>>>>>>> 94d434d0805d09dc354123a6cf1a8d5e9a3dc683
