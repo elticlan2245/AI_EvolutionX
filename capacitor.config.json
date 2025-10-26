@@ -1,0 +1,30 @@
+{
+  "appId": "com.aievolutionx.app",
+  "appName": "AI EvolutionX",
+  "webDir": "dist",
+  "server": {
+    "url": "http://192.168.50.123",
+    "cleartext": true
+  },
+  "android": {
+    "allowMixedContent": true,
+    "backgroundColor": "#ffffff"
+  },
+  "ios": {
+    "contentInset": "always",
+    "backgroundColor": "#ffffff"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#6366f1",
+      "showSpinner": true,
+      "androidSpinnerStyle": "large",
+      "spinnerColor": "#ffffff"
+    },
+    "StatusBar": {
+      "style": "dark",
+      "backgroundColor": "#6366f1"
+    }
+  }
+}
