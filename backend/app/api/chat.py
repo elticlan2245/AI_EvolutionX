@@ -1,110 +1,88 @@
-from fastapi import APIRouter, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi import APIRouter, HTTPException, Depends
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
-from typing import List, Optional
-from datetime import datetime
-from loguru import logger
-import asyncio
+from typing import List, Optional, Dict
+import logging
+import json
 
 from app.core.ollama import ollama
-from app.db.mongodb import mongodb
-from app.db.redis import redis_client
-from app.core.capture import capture_conversation
-from app.core.scorer import score_conversation
+from app.database import get_db
+from app.auth import get_current_user
 
-router = APIRouter()
-
-# ======================================================
-# modelos pydantic
-# ======================================================
+router = APIRouter(prefix="/api/chat", tags=["chat"])
+logger = logging.getLogger(__name__)
 
 class Message(BaseModel):
     role: str
     content: str
 
-
 class ChatRequest(BaseModel):
     model: str
     messages: List[Message]
-    temperature: float = 0.7
-    max_tokens: int = 2048
-    stream: bool = False
-    capture: bool = True
-
-
-class ChatResponse(BaseModel):
-    id: Optional[str] = None
-    message: Optional[Message] = None
-    model: Optional[str] = None
-    created_at: Optional[datetime] = None
-    captured: bool = False
-    quality_score: Optional[float] = None
-
-
-# ======================================================
-# POST /api/chat — conversación normal con stream
-# ======================================================
+    temperature: Optional[float] = 0.7
+    stream: Optional[bool] = True
 
 @router.post("/")
-async def chat(request: ChatRequest):
+async def chat(
+    request: ChatRequest,
+    current_user: dict = Depends(get_current_user)
+):
+    """
+    Chat endpoint with streaming support
+    """
     try:
-        messages = [{"role": m.role, "content": m.content} for m in request.messages]
-
-        async def generate_response():
-            """flujo de tokens desde ollama"""
-            try:
-                async for chunk in ollama.chat(
-                    model=request.model,
-                    messages=messages,
-                    stream=True,
-                    temperature=request.temperature,
-                    max_tokens=request.max_tokens
-                ):
-                    yield chunk
-            except Exception as e:
-                logger.error(f"ollama streaming error: {str(e)}")
-                yield f"[error: {str(e)}]"
-
-        # enviar respuesta en tiempo real
-        return StreamingResponse(generate_response(), media_type="text/plain")
-
+        logger.info(f"💬 Chat request from {current_user.get('email')} using {request.model}")
+        
+        # Convert messages to ollama format
+        messages = [{"role": msg.role, "content": msg.content} for msg in request.messages]
+        
+        if request.stream:
+            # Streaming response
+            async def generate():
+                try:
+                    async for chunk in ollama.chat_stream(
+                        model=request.model,
+                        messages=messages,
+                        temperature=request.temperature
+                    ):
+                        if chunk:
+                            yield f"data: {json.dumps({'content': chunk})}\n\n"
+                    
+                    yield "data: [DONE]\n\n"
+                    
+                except Exception as e:
+                    logger.error(f"❌ Error in stream: {e}")
+                    yield f"data: {json.dumps({'error': str(e)})}\n\n"
+            
+            return StreamingResponse(
+                generate(),
+                media_type="text/event-stream"
+            )
+        else:
+            # Non-streaming response
+            response = await ollama.chat(
+                model=request.model,
+                messages=messages,
+                temperature=request.temperature
+            )
+            
+            return {
+                "message": {
+                    "role": "assistant",
+                    "content": response.get("message", {}).get("content", "")
+                }
+            }
+            
     except Exception as e:
-        logger.error(f"chat error: {str(e)}")
+        logger.error(f"❌ Chat error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-
-# ======================================================
-# WebSocket /api/chat/stream — modo conversación viva
-# ======================================================
-
-@router.websocket("/stream")
-async def chat_stream(ws: WebSocket):
-    await ws.accept()
-    logger.info("conexión websocket establecida")
-
-    try:
-        while True:
-            data = await ws.receive_json()
-            model = data.get("model", "llama3.1:8b")
-            messages = data.get("messages", [])
-            full_response = ""
-
-            logger.debug(f"stream con modelo {model}")
-
-            try:
-                async for chunk in ollama.chat(model=model, messages=messages, stream=True):
-                    await ws.send_text(chunk)
-                    full_response += chunk
-            except Exception as e:
-                logger.error(f"error en stream ollama: {e}")
-                await ws.send_json({"error": str(e)})
-                continue
-
-            await ws.send_json({"done": True, "response": full_response})
-            logger.info(f"stream finalizado con modelo {model}")
-
-    except WebSocketDisconnect:
-        logger.info("websocket desconectado")
-    except Exception as e:
-        logger.error(f"error websocket: {str(e)}")
-        await ws.close()
+@router.post("/send")
+async def send_message(
+    request: ChatRequest,
+    current_user: dict = Depends(get_current_user)
+):
+    """
+    Alternative endpoint for sending messages
+    """
+    return await chat(request, current_user)

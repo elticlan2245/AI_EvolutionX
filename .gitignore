@@ -25,14 +25,14 @@ dist/
 *.swo
 
 # Logs
-logs/
-*.log
+logs/*.log
+nohup.out
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Environment
+# Environment (NO subir .env con secretos)
 .env.local
 .env.production
 
@@ -40,6 +40,13 @@ Thumbs.db
 build/
 *.apk
 *.aab
+*.ipa
 
 # MongoDB data
 mongodb-data/
+
+# Capacitor
+android/app/build/
+android/.gradle/
+android/app/release/
+ios/App/build/

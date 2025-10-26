@@ -1,28 +1,40 @@
 from motor.motor_asyncio import AsyncIOMotorClient
-from typing import Optional
+from pymongo import MongoClient
 import logging
+
+from app.config.settings import settings
 
 logger = logging.getLogger(__name__)
 
-client: Optional[AsyncIOMotorClient] = None
+# MongoDB client
+client: AsyncIOMotorClient = None
 db = None
 
 async def init_db():
+    """Initialize database connection"""
     global client, db
+    
     try:
-        client = AsyncIOMotorClient("mongodb://localhost:27017", serverSelectionTimeoutMS=5000)
-        db = client.aievolutionx
+        client = AsyncIOMotorClient(settings.mongodb_url)
+        db = client[settings.database_name]  # ✅ Ahora usa el nombre correcto
+        
+        # Test connection
         await client.admin.command('ping')
-        logger.info("✅ MongoDB connected")
+        
+        logger.info(f"✅ MongoDB connected: {settings.database_name}")
+        
     except Exception as e:
         logger.error(f"❌ MongoDB connection failed: {e}")
         raise
 
 async def close_db():
+    """Close database connection"""
     global client
+    
     if client:
         client.close()
-        logger.info("🔌 MongoDB disconnected")
+        logger.info("�� MongoDB connection closed")
 
-async def get_db():
+def get_db():
+    """Dependency for getting database"""
     return db
